@@ -32,3 +32,25 @@ def clean_column_names(df: pd.DataFrame) -> pd.DataFrame:
         .str.replace(" ", "_")
     )
     return df
+
+# --------------------------------------------------------------------
+# function to handle missing values
+# Copilot Prompt: "Write a function that fills missing number values and 
+# removes rows that are missing product or category names."
+# Why: Missing values mess up calculations; and they have to be handled consistently.
+# --------------------------------------------------------------------
+def handle_missing_values(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+
+    # Strip whitespace so blanks become true empty values
+    df["prodname"] = df["prodname"].str.strip()
+    df["category"] = df["category"].str.strip()
+
+    # Drop rows missing product name or category
+    df = df.dropna(subset=["prodname", "category"])
+
+    # Fill missing numeric fields with 0
+    df["price"] = df["price"].fillna(0)
+    df["qty"] = df["qty"].fillna(0)
+
+    return df
