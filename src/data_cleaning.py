@@ -16,3 +16,19 @@ import pandas as pd
 def load_data(file_path: str) -> pd.DataFrame:
     df = pd.read_csv(file_path)
     return df
+
+# --------------------------------------------------------------------
+# clean column function
+# Copilot Prompt: "Create a function to clean up column names by stripping 
+# whitespace, converting to lowercase, and replacing spaces with underscores."
+# Why: The raw file contains inconsistent capitalization and spacing.
+# --------------------------------------------------------------------
+def clean_column_names(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    df.columns = (
+        df.columns
+        .str.strip()
+        .str.lower()
+        .str.replace(" ", "_")
+    )
+    return df
