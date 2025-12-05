@@ -54,3 +54,19 @@ def handle_missing_values(df: pd.DataFrame) -> pd.DataFrame:
     df["qty"] = df["qty"].fillna(0)
 
     return df
+
+# --------------------------------------------------------------------
+# function to remove the invalid rows
+# Copilot Prompt: "Write a function that removes rows where the price or 
+# quantity is negative."
+# Why: Negative values are data-entry errors and should not be calculated.
+# --------------------------------------------------------------------
+def remove_invalid_rows(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+
+    # Convert the numeric columns to numbers so that it avoids the string comparison error
+    df["price"] = pd.to_numeric(df["price"], errors="coerce")
+    df["qty"] = pd.to_numeric(df["qty"], errors="coerce")
+
+    df = df[(df["price"] >= 0) & (df["qty"] >= 0)]
+    return df
